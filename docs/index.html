@@ -1,1 +1,600 @@
-<a href="v1.html">V1</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyWorkID — UX Redesign Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0c0e14;
+    --ink-soft: #3b3f51;
+    --ink-muted: #6e7285;
+    --surface: #ffffff;
+    --canvas: #f4f5f7;
+    --accent: #2563eb;
+    --accent-glow: rgba(37, 99, 235, 0.12);
+    --border: #e0e2ea;
+    --border-hover: #c5c8d4;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', -apple-system, sans-serif;
+    background: var(--canvas);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ─── Grain overlay for texture ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.3;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    z-index: 9999;
+  }
+
+  /* ─── Hero ─── */
+  .hero {
+    padding: 60px 24px 48px;
+    max-width: 920px;
+    margin: 0 auto;
+    animation: fadeUp 0.6s ease;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 24px;
+  }
+
+  .hero-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease infinite;
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent), #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 600px;
+    font-weight: 400;
+  }
+
+  /* ─── Hero Links ─── */
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .hero-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .hero-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  .hero-link svg {
+    flex-shrink: 0;
+  }
+
+  /* ─── Sections ─── */
+  .section {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px 56px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── Concept Cards ─── */
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .concept-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .concept-card:nth-child(1) { animation-delay: 0.1s; }
+  .concept-card:nth-child(2) { animation-delay: 0.15s; }
+  .concept-card:nth-child(3) { animation-delay: 0.2s; }
+
+  .concept-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow), 0 8px 24px rgba(0,0,0,0.06);
+    transform: translateY(-3px);
+  }
+
+  .concept-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), #7c3aed);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .concept-card:hover::before { opacity: 1; }
+
+  .concept-version {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-glow);
+    padding: 3px 10px;
+    border-radius: 100px;
+    display: inline-flex;
+    align-self: flex-start;
+    margin-bottom: 14px;
+    letter-spacing: 0.03em;
+  }
+
+  .concept-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+  }
+
+  .concept-card p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    flex: 1;
+  }
+
+  .concept-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .concept-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    background: var(--canvas);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  .concept-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--canvas);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-muted);
+    transition: all 0.2s;
+  }
+
+  .concept-card:hover .concept-arrow {
+    background: var(--accent);
+    color: white;
+    transform: translateX(2px);
+  }
+
+  .concept-card--upcoming {
+    opacity: 0.5;
+    pointer-events: none;
+    border-style: dashed;
+  }
+
+  .concept-card--upcoming .concept-version {
+    background: var(--canvas);
+    color: var(--ink-muted);
+  }
+
+  /* ─── Screenshots Grid ─── */
+  .screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  @media (max-width: 600px) {
+    .screenshots-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  .screenshot-thumb {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    aspect-ratio: 4/3;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .screenshot-thumb:nth-child(1) { animation-delay: 0.1s; }
+  .screenshot-thumb:nth-child(2) { animation-delay: 0.18s; }
+  .screenshot-thumb:nth-child(3) { animation-delay: 0.26s; }
+
+  .screenshot-thumb:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  .screenshot-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .screenshot-thumb:hover img {
+    transform: scale(1.03);
+  }
+
+  .screenshot-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 14px 10px;
+    background: linear-gradient(transparent, rgba(12,14,20,0.7));
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.02em;
+  }
+
+  .screenshot-zoom {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: rgba(12,14,20,0.5);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.2s;
+  }
+
+  .screenshot-thumb:hover .screenshot-zoom {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ─── Lightbox ─── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(12, 14, 20, 0.85);
+    backdrop-filter: blur(12px);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    cursor: zoom-out;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .lightbox.active { display: flex; }
+
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 88vh;
+    border-radius: var(--radius);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+    animation: lightboxIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+
+  .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+  .lightbox-caption {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    background: rgba(12,14,20,0.6);
+    padding: 6px 16px;
+    border-radius: 100px;
+    backdrop-filter: blur(8px);
+    white-space: nowrap;
+  }
+
+  /* ─── Footer ─── */
+  .page-footer {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 24px 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  .page-footer a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+
+  .page-footer a:hover { color: var(--accent); }
+
+  /* ─── Animations ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes lightboxIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── Hero ─── -->
+<div class="hero">
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    Work in Progress
+  </div>
+  <h1>MyWorkID<br><span>UX Redesign</span></h1>
+  <p class="hero-sub">
+    Exploring a modern, mobile-first interface for the MyWorkID self-service identity portal.
+    These concepts rethink how end users interact with password resets, Temporary Access Passes,
+    risk dismissal, and identity verification in Microsoft Entra ID environments.
+  </p>
+  <div class="hero-links">
+    <a href="https://www.glueckkanja.com/en/security/my-work-id/" target="_blank" class="hero-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      Website
+    </a>
+    <a href="https://github.com/glueckkanja/MyWorkID" target="_blank" class="hero-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+      GitHub
+    </a>
+    <a href="https://myworkid-demo-mimi.azurewebsites.net/" target="_blank" class="hero-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Live Demo
+    </a>
+  </div>
+</div>
+
+<!-- ─── Current State ─── -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">Current State</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="screenshots-grid">
+    <div class="screenshot-thumb" onclick="openLightbox('screen1.png', 'Lab Environment — Dashboard')">
+      <img src="screen1.png" alt="MyWorkID current lab environment" loading="lazy">
+      <div class="screenshot-label">Lab Environment</div>
+      <div class="screenshot-zoom">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+      </div>
+    </div>
+    <div class="screenshot-thumb" onclick="openLightbox('screen2.png', 'Customer Concept — Password Reset')">
+      <img src="screen2.png" alt="Customer concept password reset" loading="lazy">
+      <div class="screenshot-label">Customer Concept — Reset</div>
+      <div class="screenshot-zoom">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+      </div>
+    </div>
+    <div class="screenshot-thumb" onclick="openLightbox('screen3.png', 'Customer Concept — TAP + Password')">
+      <img src="screen3.png" alt="Customer concept TAP and password" loading="lazy">
+      <div class="screenshot-label">Customer Concept — TAP</div>
+      <div class="screenshot-zoom">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Concepts ─── -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">Design Concepts</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="concepts-grid">
+
+    <a href="v1.html" class="concept-card">
+      <span class="concept-version">v1</span>
+      <h3>Mobile-First Cards</h3>
+      <p>Bottom-sheet interaction pattern. Context-aware action prioritization based on user risk state. Clean, single-column layout.</p>
+      <div class="concept-card-footer">
+        <span class="concept-tag">Light Theme</span>
+        <div class="concept-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <div class="concept-card concept-card--upcoming">
+      <span class="concept-version">v2</span>
+      <h3>Coming Soon</h3>
+      <p>Next iteration — dark mode, branded variant, or alternative layout.</p>
+      <div class="concept-card-footer">
+        <span class="concept-tag">TBD</span>
+        <div class="concept-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── Footer ─── -->
+<div class="page-footer">
+  <span>&copy; 2026 glueckkanja</span>
+  <a href="https://github.com/glueckkanja/MyWorkID" target="_blank">GitHub &nearr;</a>
+</div>
+
+<!-- ─── Lightbox ─── -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<script>
+  function openLightbox(src, caption) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = caption;
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
