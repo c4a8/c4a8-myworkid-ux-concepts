@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyWorkID — Redesign Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Theming — customer can override these */
+    --brand-primary: #2563eb;
+    --brand-primary-hover: #1d4ed8;
+    --brand-primary-subtle: #eff6ff;
+    --brand-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+
+    /* Neutrals */
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-hover: #f1f5f9;
+    --border: #e2e8f0;
+    --border-subtle: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #94a3b8;
+
+    /* Status */
+    --risk-high: #dc2626;
+    --risk-high-bg: #fef2f2;
+    --risk-medium: #f59e0b;
+    --risk-medium-bg: #fffbeb;
+    --risk-dismissed: #16a34a;
+    --risk-dismissed-bg: #f0fdf4;
+
+    /* Sizing */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-full: 9999px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+    --shadow-focus: 0 0 0 3px rgba(37,99,235,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── App Shell ─── */
+  .app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-logo svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .header-logo span {
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.3px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.15s;
+  }
+
+  .theme-toggle:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+  }
+
+  /* ─── Main Content ─── */
+  .main {
+    flex: 1;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 20px 100px;
+  }
+
+  /* ─── User Card ─── */
+  .user-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.4s ease;
+  }
+
+  .user-card-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .user-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-full);
+    background: var(--brand-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .user-info h2 {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.2px;
+  }
+
+  .user-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  .risk-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .risk-badge--high {
+    background: var(--risk-high-bg);
+    color: var(--risk-high);
+  }
+
+  .risk-badge--medium {
+    background: var(--risk-medium-bg);
+    color: var(--risk-medium);
+  }
+
+  .risk-badge--dismissed {
+    background: var(--risk-dismissed-bg);
+    color: var(--risk-dismissed);
+  }
+
+  .risk-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* ─── Section ─── */
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    padding: 0 4px;
+    margin-bottom: 10px;
+  }
+
+  /* ─── Action Cards ─── */
+  .actions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .action-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .action-card:hover {
+    border-color: var(--brand-primary);
+    box-shadow: var(--shadow-focus);
+    transform: translateY(-1px);
+  }
+
+  .action-card:active {
+    transform: translateY(0);
+  }
+
+  .action-card--highlighted {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary-subtle);
+  }
+
+  .action-card--highlighted .action-icon {
+    background: var(--brand-primary);
+    color: white;
+  }
+
+  .action-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .action-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.8;
+  }
+
+  .action-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .action-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.1px;
+  }
+
+  .action-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
+  .action-arrow {
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+
+  .action-card:hover .action-arrow {
+    transform: translateX(3px);
+    color: var(--brand-primary);
+  }
+
+  /* ─── Expanded Panel (detail view) ─── */
+  .panel-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.3);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .panel-overlay.active { display: block; }
+
+  .panel {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 90vh;
+    background: var(--surface);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    z-index: 201;
+    animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+  }
+
+  .panel.active { display: block; }
+
+  @media (min-width: 640px) {
+    .panel {
+      max-width: 520px;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 24px;
+      border-radius: var(--radius-xl);
+      max-height: 80vh;
+    }
+  }
+
+  .panel-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 12px auto 0;
+  }
+
+  .panel-header {
+    padding: 20px 24px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .panel-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+  }
+
+  .panel-header p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .panel-close {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: var(--surface-hover);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .panel-close:hover { background: var(--border); }
+
+  .panel-body {
+    padding: 24px;
+  }
+
+  /* ─── Form Elements ─── */
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+
+  .form-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 15px;
+    background: var(--surface);
+    color: var(--text-primary);
+    transition: all 0.15s;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: var(--shadow-focus);
+  }
+
+  .form-input-wrapper {
+    position: relative;
+  }
+
+  .form-input-wrapper .form-input {
+    padding-right: 44px;
+  }
+
+  .form-toggle-pw {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+    border-radius: var(--radius-sm);
+  }
+
+  .form-toggle-pw:hover { color: var(--text-secondary); }
+
+  .form-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+    background: var(--surface-hover);
+    border-radius: var(--radius-sm);
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .form-hint svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--brand-primary);
+    color: white;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: -0.1px;
+  }
+
+  .btn-primary:hover { background: var(--brand-primary-hover); }
+  .btn-primary:active { transform: scale(0.99); }
+
+  .btn-secondary {
+    width: 100%;
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .btn-secondary:hover { background: var(--surface-hover); }
+
+  /* ─── TAP Result ─── */
+  .tap-result {
+    background: var(--brand-primary-subtle);
+    border: 1px solid var(--brand-primary);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .tap-result-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--brand-primary);
+    margin-bottom: 8px;
+  }
+
+  .tap-result-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    color: var(--text-primary);
+    user-select: all;
+  }
+
+  .tap-result-meta {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .btn-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid var(--brand-primary);
+    border-radius: var(--radius-full);
+    background: white;
+    color: var(--brand-primary);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 14px;
+    transition: all 0.15s;
+  }
+
+  .btn-copy:hover { background: var(--brand-primary); color: white; }
+
+  /* ─── Validate Identity ─── */
+  .verify-illustration {
+    width: 100%;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-hover);
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+  }
+
+  .verify-illustration svg {
+    width: 80px;
+    height: 80px;
+    color: var(--brand-primary);
+  }
+
+  /* ─── Success State ─── */
+  .success-state {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .success-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--risk-dismissed-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: var(--risk-dismissed);
+  }
+
+  .success-state h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .success-state p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* ─── Footer ─── */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  .footer a:hover { text-decoration: underline; }
+
+  /* ─── Animations ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%) translateX(-50%); }
+    to { transform: translateY(0) translateX(-50%); }
+  }
+
+  @media (max-width: 639px) {
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+  }
+
+  .action-card { animation: fadeUp 0.4s ease both; }
+  .action-card:nth-child(1) { animation-delay: 0.05s; }
+  .action-card:nth-child(2) { animation-delay: 0.1s; }
+  .action-card:nth-child(3) { animation-delay: 0.15s; }
+  .action-card:nth-child(4) { animation-delay: 0.2s; }
+
+  /* ─── Demo Switcher (only for prototype) ─── */
+  .demo-bar {
+    background: var(--text-primary);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  .demo-bar span { opacity: 0.6; }
+
+  .demo-btn {
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255,255,255,0.25);
+    background: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .demo-btn:hover, .demo-btn.active {
+    background: white;
+    color: var(--text-primary);
+    border-color: white;
+  }
+
+  /* ─── Custom brand override example ─── */
+  .brand-logo-slot {
+    max-height: 28px;
+    display: none;
+  }
+
+  /* ─── Dismiss Risk Confirmation ─── */
+  .confirm-box {
+    background: var(--risk-high-bg);
+    border: 1px solid #fecaca;
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 18px;
+  }
+
+  .confirm-box p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .confirm-box p strong {
+    color: var(--risk-high);
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── Demo Controls (prototype only) ─── -->
+<div class="demo-bar">
+  <span>PROTOTYPE</span>
+  <button class="demo-btn active" onclick="setRisk('high')">Risk: High</button>
+  <button class="demo-btn" onclick="setRisk('medium')">Risk: Medium</button>
+  <button class="demo-btn" onclick="setRisk('none')">No Risk</button>
+</div>
+
+<div class="app">
+  <!-- ─── Header ─── -->
+  <header class="header">
+    <div class="header-logo">
+      <svg viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="6" fill="var(--brand-primary)"/>
+        <path d="M7 14C7 10.134 10.134 7 14 7s7 3.134 7 7-3.134 7-7 7" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="14" cy="14" r="2.5" fill="white"/>
+      </svg>
+      <span>MyWorkID</span>
+    </div>
+    <div class="header-right">
+      <button class="theme-toggle" title="Settings" aria-label="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ─── Main ─── -->
+  <main class="main">
+
+    <!-- User Card -->
+    <div class="user-card">
+      <div class="user-card-top">
+        <div class="user-avatar">RM</div>
+        <div class="user-info">
+          <h2>Roman Metschina</h2>
+          <p>roman.metschina@contoso.com</p>
+        </div>
+      </div>
+      <div id="risk-badge-container">
+        <div class="risk-badge risk-badge--high">
+          <span class="risk-badge-dot"></span>
+          Risk Level: High
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommended (context-dependent) -->
+    <div id="recommended-section">
+      <div class="section-label">Recommended</div>
+      <div class="actions-list">
+        <a class="action-card action-card--highlighted" onclick="openPanel('dismiss')">
+          <div class="action-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg>
+          </div>
+          <div class="action-content">
+            <div class="action-title">Dismiss Risk</div>
+            <div class="action-desc">Resolve your risk status to regain full access</div>
+          </div>
+          <div class="action-arrow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- All Actions -->
+    <div class="section-label">All Actions</div>
+    <div class="actions-list">
+
+      <a class="action-card" onclick="openPanel('password')">
+        <div class="action-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+        </div>
+        <div class="action-content">
+          <div class="action-title">Reset Password</div>
+          <div class="action-desc">Set a new password for your account</div>
+        </div>
+        <div class="action-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </a>
+
+      <a class="action-card" onclick="openPanel('tap')">
+        <div class="action-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
+        </div>
+        <div class="action-content">
+          <div class="action-title">Temporary Access Pass</div>
+          <div class="action-desc">Get a one-time code to sign in or set up a new device</div>
+        </div>
+        <div class="action-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </a>
+
+      <a class="action-card" onclick="openPanel('validate')">
+        <div class="action-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="action-content">
+          <div class="action-title">Validate Identity</div>
+          <div class="action-desc">Verify who you are using Face Check</div>
+        </div>
+        <div class="action-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </a>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    powered by <a href="https://www.glueckkanja.com" target="_blank">glueckkanja</a>
+  </footer>
+</div>
+
+<!-- ─── Overlay ─── -->
+<div class="panel-overlay" id="overlay" onclick="closePanel()"></div>
+
+<!-- ─── Panel: Reset Password ─── -->
+<div class="panel" id="panel-password">
+  <div class="panel-handle"></div>
+  <div class="panel-header">
+    <div>
+      <h3>Reset Password</h3>
+      <p>Choose a strong password you haven't used before.</p>
+    </div>
+    <button class="panel-close" onclick="closePanel()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label class="form-label">New Password</label>
+      <div class="form-input-wrapper">
+        <input type="password" class="form-input" placeholder="Enter new password">
+        <button class="form-toggle-pw" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Confirm Password</label>
+      <div class="form-input-wrapper">
+        <input type="password" class="form-input" placeholder="Repeat new password">
+        <button class="form-toggle-pw" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="form-hint">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>At least 10 characters (24 for admin accounts) including uppercase and lowercase letters, a number, and a symbol.</span>
+    </div>
+    <br>
+    <button class="btn-primary" onclick="showSuccess('password')">Change Password</button>
+  </div>
+</div>
+
+<!-- ─── Panel: TAP ─── -->
+<div class="panel" id="panel-tap">
+  <div class="panel-handle"></div>
+  <div class="panel-header">
+    <div>
+      <h3>Temporary Access Pass</h3>
+      <p>A one-time code to sign in without your regular credentials.</p>
+    </div>
+    <button class="panel-close" onclick="closePanel()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="panel-body" id="tap-body">
+    <div class="tap-result">
+      <div class="tap-result-label">Your Access Pass</div>
+      <div class="tap-result-code">345DS89</div>
+      <div class="tap-result-meta">Valid until Mar 6, 2026 at 6:30 PM</div>
+      <button class="btn-copy">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copy Code
+      </button>
+    </div>
+    <div class="form-hint">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>Use this code to sign in on your new device. Once expired, you can generate a new pass.</span>
+    </div>
+    <br>
+    <button class="btn-secondary" onclick="closePanel()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      Create New Pass
+    </button>
+  </div>
+</div>
+
+<!-- ─── Panel: Dismiss Risk ─── -->
+<div class="panel" id="panel-dismiss">
+  <div class="panel-handle"></div>
+  <div class="panel-header">
+    <div>
+      <h3>Dismiss User Risk</h3>
+      <p>Confirm that your account is safe and request risk removal.</p>
+    </div>
+    <button class="panel-close" onclick="closePanel()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="panel-body">
+    <div class="confirm-box">
+      <p>Your account is flagged as <strong>high risk</strong>. By dismissing, you confirm this was expected behavior (e.g. travel, new device). All active sessions will be revoked.</p>
+    </div>
+    <button class="btn-primary" onclick="showSuccess('dismiss')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg>
+      Dismiss Risk
+    </button>
+  </div>
+</div>
+
+<!-- ─── Panel: Validate Identity ─── -->
+<div class="panel" id="panel-validate">
+  <div class="panel-handle"></div>
+  <div class="panel-header">
+    <div>
+      <h3>Validate Identity</h3>
+      <p>Prove your identity using a face scan via Verified ID.</p>
+    </div>
+    <button class="panel-close" onclick="closePanel()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="panel-body">
+    <div class="verify-illustration">
+      <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <rect x="8" y="8" width="64" height="64" rx="16"/>
+        <circle cx="40" cy="34" r="10"/>
+        <path d="M24 62c0-8.837 7.163-16 16-16s16 7.163 16 16"/>
+        <path d="M58 16l6-6M16 16l-6-6M58 64l6 6M16 64l-6 6"/>
+      </svg>
+    </div>
+    <div class="form-hint">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>You'll be asked to take a real-time selfie. The system matches it against your Microsoft Entra ID photo. Results are stored securely.</span>
+    </div>
+    <br>
+    <button class="btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      Start Face Check
+    </button>
+  </div>
+</div>
+
+<!-- ─── Panel: Success ─── -->
+<div class="panel" id="panel-success">
+  <div class="panel-handle"></div>
+  <div class="panel-body">
+    <div class="success-state">
+      <div class="success-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h4 id="success-title">Done!</h4>
+      <p id="success-desc">Your action was completed successfully.</p>
+    </div>
+    <br>
+    <button class="btn-primary" onclick="closePanel()">Back to Overview</button>
+  </div>
+</div>
+
+
+<script>
+  // ─── Panel Logic ───
+  let activePanel = null;
+
+  function openPanel(id) {
+    closePanel();
+    const overlay = document.getElementById('overlay');
+    const panel = document.getElementById('panel-' + id);
+    if (panel) {
+      overlay.classList.add('active');
+      panel.classList.add('active');
+      activePanel = id;
+    }
+  }
+
+  function closePanel() {
+    document.getElementById('overlay').classList.remove('active');
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    activePanel = null;
+  }
+
+  function showSuccess(type) {
+    // Close current panel first
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+
+    const title = document.getElementById('success-title');
+    const desc = document.getElementById('success-desc');
+
+    if (type === 'password') {
+      title.textContent = 'Password Changed';
+      desc.textContent = 'Your new password is active. Use it the next time you sign in.';
+    } else if (type === 'dismiss') {
+      title.textContent = 'Risk Dismissed';
+      desc.textContent = 'Your risk status has been cleared. All previous sessions have been revoked.';
+    }
+
+    document.getElementById('panel-success').classList.add('active');
+  }
+
+  // ─── Demo: Risk State Switcher ───
+  function setRisk(level) {
+    // Update demo buttons
+    document.querySelectorAll('.demo-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const badge = document.getElementById('risk-badge-container');
+    const rec = document.getElementById('recommended-section');
+
+    if (level === 'high') {
+      badge.innerHTML = '<div class="risk-badge risk-badge--high"><span class="risk-badge-dot"></span>Risk Level: High</div>';
+      rec.style.display = 'block';
+    } else if (level === 'medium') {
+      badge.innerHTML = '<div class="risk-badge risk-badge--medium"><span class="risk-badge-dot"></span>Risk Level: Medium</div>';
+      rec.style.display = 'block';
+    } else {
+      badge.innerHTML = '<div class="risk-badge risk-badge--dismissed"><span class="risk-badge-dot"></span>No Active Risk</div>';
+      rec.style.display = 'none';
+    }
+  }
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePanel();
+  });
+</script>
+
+</body>
+</html>
