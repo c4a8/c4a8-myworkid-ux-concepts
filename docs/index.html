@@ -363,6 +363,52 @@
     transform: scale(1);
   }
 
+  /* ─── Compact Section ─── */
+  .section--compact {
+    padding-bottom: 40px;
+    opacity: 0.75;
+    transition: opacity 0.3s;
+  }
+
+  .section--compact:hover {
+    opacity: 1;
+  }
+
+  .screenshots-grid--small {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 680px;
+  }
+
+  .screenshots-grid--small .screenshot-thumb {
+    aspect-ratio: 16/10;
+    border-radius: 10px;
+  }
+
+  .screenshots-grid--small .screenshot-label {
+    font-size: 10px;
+    padding: 16px 10px 8px;
+  }
+
+  .screenshots-grid--small .screenshot-zoom {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    top: 6px;
+    right: 6px;
+  }
+
+  .screenshots-grid--small .screenshot-zoom svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .screenshots-grid--small {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
   /* ─── Lightbox ─── */
   .lightbox {
     display: none;
@@ -496,37 +542,6 @@
   </div>
 </div>
 
-<!-- ─── Current State ─── -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-title">Current State</span>
-    <div class="section-line"></div>
-  </div>
-  <div class="screenshots-grid">
-    <div class="screenshot-thumb" onclick="openLightbox('screen1.png', 'Lab Environment — Dashboard')">
-      <img src="screen1.png" alt="MyWorkID current lab environment" loading="lazy">
-      <div class="screenshot-label">Lab Environment</div>
-      <div class="screenshot-zoom">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
-      </div>
-    </div>
-    <div class="screenshot-thumb" onclick="openLightbox('screen2.png', 'Customer Concept — Password Reset')">
-      <img src="screen2.png" alt="Customer concept password reset" loading="lazy">
-      <div class="screenshot-label">Customer Concept — Reset</div>
-      <div class="screenshot-zoom">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
-      </div>
-    </div>
-    <div class="screenshot-thumb" onclick="openLightbox('screen3.png', 'Customer Concept — TAP + Password')">
-      <img src="screen3.png" alt="Customer concept TAP and password" loading="lazy">
-      <div class="screenshot-label">Customer Concept — TAP</div>
-      <div class="screenshot-zoom">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ─── Concepts ─── -->
 <div class="section">
   <div class="section-header">
@@ -559,6 +574,37 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- ─── Current State (Reference) ─── -->
+<div class="section section--compact">
+  <div class="section-header">
+    <span class="section-title">Reference — Current State</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="screenshots-grid screenshots-grid--small">
+    <div class="screenshot-thumb" onclick="openLightbox('screen1.png', 'Lab Environment — Dashboard')">
+      <img src="screen1.png" alt="MyWorkID current lab environment" loading="lazy">
+      <div class="screenshot-label">Lab Environment</div>
+      <div class="screenshot-zoom">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+      </div>
+    </div>
+    <div class="screenshot-thumb" onclick="openLightbox('screen2.png', 'Customer Concept — Password Reset')">
+      <img src="screen2.png" alt="Customer concept password reset" loading="lazy">
+      <div class="screenshot-label">Customer Concept — Reset</div>
+      <div class="screenshot-zoom">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+      </div>
+    </div>
+    <div class="screenshot-thumb" onclick="openLightbox('screen3.png', 'Customer Concept — TAP + Password')">
+      <img src="screen3.png" alt="Customer concept TAP and password" loading="lazy">
+      <div class="screenshot-label">Customer Concept — TAP</div>
+      <div class="screenshot-zoom">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+      </div>
+    </div>
   </div>
 </div>
 
