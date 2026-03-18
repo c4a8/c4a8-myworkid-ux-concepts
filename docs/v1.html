@@ -568,6 +568,21 @@
 
   .btn-copy:hover { background: var(--brand-primary); color: white; }
 
+  .btn-copy.copied {
+    background: var(--risk-dismissed);
+    border-color: var(--risk-dismissed);
+    color: white;
+  }
+
+  .btn-revoke {
+    border-color: var(--risk-high);
+    color: var(--risk-high);
+  }
+
+  .btn-revoke:hover {
+    background: var(--risk-high-bg);
+  }
+
   /* ─── Validate Identity ─── */
   .verify-illustration {
     width: 100%;
@@ -902,7 +917,7 @@
       <div class="tap-result-label">Your Access Pass</div>
       <div class="tap-result-code">345DS89</div>
       <div class="tap-result-meta">Valid until Mar 6, 2026 at 6:30 PM</div>
-      <button class="btn-copy">
+      <button class="btn-copy" onclick="copyTapCode(this)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy Code
       </button>
@@ -915,6 +930,10 @@
     <button class="btn-secondary" onclick="closePanel()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
       Create New Pass
+    </button>
+    <button class="btn-secondary btn-revoke" onclick="showSuccess('revoke')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+      Revoke Access Pass
     </button>
   </div>
 </div>
@@ -955,7 +974,7 @@
     </button>
   </div>
   <div class="panel-body">
-    <div class="verify-illustration">
+    <div class="verify-illustration" id="verify-illustration">
       <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
         <rect x="8" y="8" width="64" height="64" rx="16"/>
         <circle cx="40" cy="34" r="10"/>
@@ -968,7 +987,7 @@
       <span>You'll be asked to take a real-time selfie. The system matches it against your Microsoft Entra ID photo. Results are stored securely.</span>
     </div>
     <br>
-    <button class="btn-primary">
+    <button class="btn-primary" onclick="startFaceCheck()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
       Start Face Check
     </button>
@@ -1026,6 +1045,9 @@
     } else if (type === 'dismiss') {
       title.textContent = 'Risk Dismissed';
       desc.textContent = 'Your risk status has been cleared. All previous sessions have been revoked.';
+    } else if (type === 'revoke') {
+      title.textContent = 'Access Pass Revoked';
+      desc.textContent = 'Your Temporary Access Pass has been revoked and can no longer be used.';
     }
 
     document.getElementById('panel-success').classList.add('active');
@@ -1056,6 +1078,50 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closePanel();
   });
+
+  // ─── Copy TAP Code ───
+  function copyTapCode(btn) {
+    const code = document.querySelector('.tap-result-code').textContent;
+    const copyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Code';
+    navigator.clipboard.writeText(code).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
+      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = copyIcon; }, 2000);
+    }).catch(() => {
+      btn.textContent = 'Failed to copy';
+      setTimeout(() => { btn.innerHTML = copyIcon; }, 2000);
+    });
+  }
+
+  // ─── Start Face Check — swap illustration to QR code ───
+  function startFaceCheck() {
+    const illus = document.getElementById('verify-illustration');
+    illus.innerHTML = `<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <rect x="4" y="4" width="20" height="20" rx="4"/>
+      <rect x="56" y="4" width="20" height="20" rx="4"/>
+      <rect x="4" y="56" width="20" height="20" rx="4"/>
+      <rect x="10" y="10" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="62" y="10" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="10" y="62" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="30" y="4" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="42" y="4" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="30" y="16" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="4" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="4" y="42" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="16" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="30" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="42" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="56" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="70" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="42" y="42" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="56" y="42" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="42" y="56" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="56" y="56" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="70" y="56" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="56" y="70" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="70" y="70" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+    </svg>`;
+  }
 </script>
 
 </body>
