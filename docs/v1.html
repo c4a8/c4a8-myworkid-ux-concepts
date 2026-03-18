@@ -1082,43 +1082,45 @@
   // ─── Copy TAP Code ───
   function copyTapCode(btn) {
     const code = document.querySelector('.tap-result-code').textContent;
-    navigator.clipboard.writeText(code).catch(() => {});
-    btn.classList.add('copied');
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
-    setTimeout(() => {
-      btn.classList.remove('copied');
-      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Code';
-    }, 2000);
+    const copyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Code';
+    navigator.clipboard.writeText(code).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
+      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = copyIcon; }, 2000);
+    }).catch(() => {
+      btn.textContent = 'Failed to copy';
+      setTimeout(() => { btn.innerHTML = copyIcon; }, 2000);
+    });
   }
 
   // ─── Start Face Check — swap illustration to QR code ───
   function startFaceCheck() {
     const illus = document.getElementById('verify-illustration');
-    illus.innerHTML = '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">' +
-      '<rect x="4" y="4" width="20" height="20" rx="4"/>' +
-      '<rect x="56" y="4" width="20" height="20" rx="4"/>' +
-      '<rect x="4" y="56" width="20" height="20" rx="4"/>' +
-      '<rect x="10" y="10" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="62" y="10" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="10" y="62" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="30" y="4" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="42" y="4" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="30" y="16" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="4" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="4" y="42" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="16" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="30" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="42" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="56" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="70" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="42" y="42" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="56" y="42" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="42" y="56" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="56" y="56" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="70" y="56" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="56" y="70" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '<rect x="70" y="70" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>' +
-      '</svg>';
+    illus.innerHTML = `<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <rect x="4" y="4" width="20" height="20" rx="4"/>
+      <rect x="56" y="4" width="20" height="20" rx="4"/>
+      <rect x="4" y="56" width="20" height="20" rx="4"/>
+      <rect x="10" y="10" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="62" y="10" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="10" y="62" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="30" y="4" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="42" y="4" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="30" y="16" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="4" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="4" y="42" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="16" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="30" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="42" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="56" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="70" y="30" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="42" y="42" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="56" y="42" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="42" y="56" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="56" y="56" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="70" y="56" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="56" y="70" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="70" y="70" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+    </svg>`;
   }
 </script>
 
